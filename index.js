@@ -1,29 +1,27 @@
-let person = {
-  firstName: "Sinisa",
-  lastName: "Milicic",
-  age: 27
-};
+// Promises
 
-let personJSON = {
-  "firstName" : "Sinisa",
-  "lastName" : "Milicic",
-  "age": 27
-};
+let myFirstPromise = new Promise((resolve, reject) => {
+  // We call resolve(...) when what we were doing asynchronously was successful, and reject(...) when it failed.
+  setTimeout(() => {
+    resolve("Success!");
+    reject("Error!");
+  }, 250);
+});
 
-// Because personJSON is already an object it cannot be parsed again to an object, so I stringified it in order to be able to parse it correctly, otherwise we get the "Uncaught SyntaxError: Unexpected token o in JSON" error
+myFirstPromise
+  .then(successMessage => {
+    console.log(successMessage);
+  })
+  .catch(errorMessage => console.log(errorMessage));
 
-let parsedPerson = JSON.parse(JSON.stringify(personJSON));
-console.log(parsedPerson);
+//   Promise.all()
 
-let stringifiedPerson = JSON.stringify(person);
-console.log(stringifiedPerson);
+let promise1 = Promise.resolve(3);
+let promise2 = 42;
+let promise3 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, "foo");
+});
 
-// JS and JSON array of numbers
-
-let numbersJS = [1,2,3,4,5];
-let numbersJSON = {"numbers":[1,2,3,4,5]};
-
-let parsedNumbers = JSON.parse(JSON.stringify(numbersJSON));
-for (i in parsedNumbers.numbers) {
-    console.log(parsedNumbers.numbers[i]);
-  }
+Promise.all([promise1, promise2, promise3]).then(values => {
+  console.log(values);
+});
